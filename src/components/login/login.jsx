@@ -14,13 +14,6 @@ const Login = ({authService}) => {
         });  
     };
 
-    const gotoMaker = (userId) => {
-        navigate({
-            pathname : '/maker',
-            state: {id: userId }
-        });
-    };
-
     const onLogin = event => {
         authService
         .login(event.currentTarget.textContent)

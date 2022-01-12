@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useEffect } from 'react/cjs/react.development';
 import Footer from '../footer/footer';
 import Header from '../header/header';
@@ -15,9 +15,9 @@ const Maker = ({FileInput, authService, cardRepository}) => {
     const [userId, setUserID] = useState(navigateState && navigateState.id);
 
     // const navigate = useNavigate();
-    const onLogout = () => {
+    const onLogout = useCallback(() => {
         authService.logout();
-    };
+    }, [authService]);
 
     useEffect(() => {
         if (!userId){
@@ -27,7 +27,7 @@ const Maker = ({FileInput, authService, cardRepository}) => {
             setCard(cards);
         });
         return() => stopSync();
-    }, [userId]);
+    }, [userId, cardRepository]);
 
     useEffect(() => {
         authService.onAuthChange(user => {
@@ -37,7 +37,7 @@ const Maker = ({FileInput, authService, cardRepository}) => {
                 navigate('/');
             }
         });
-    });
+    }, [authService, userId, navigate]);
 
     const createOrUpdateCard = card => {
         setCard(cards => {
